@@ -1,0 +1,221 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    height:1300vw;
+    background: #2c34a3;
+    overflow-x: hidden;
+   
+}
+*{
+    box-sizing: border-box;
+}
+
+
+@font-face {
+  font-family: 'Empiric Roman';
+  src: url('../materiales/TIPOS/empiric-roman.OTF');
+}
+
+
+
+#marquee{
+    width: 100vw;
+    height: 30px;
+    overflow: hidden;
+    position: fixed;
+    /*left: -200px;*/
+    top:0;
+
+}
+
+ul{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+li{
+    font-family: Empiric Roman;
+    color: aliceblue;
+    font-size: 16px;
+    letter-spacing: 1px;
+    line-height: 30px;
+    white-space: nowrap;
+    float: left;
+}
+
+
+#marquee2{
+    width: 100vw;
+    height: 30px;
+    overflow: hidden;
+    position: fixed;
+    /*left: -200px;*/
+    bottom:0;
+
+}
+
+
+
+.caja {
+    width:1500vw; 
+    margin: 0 0 0 100vw;
+    padding: 0;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    color: aliceblue;
+    white-space: nowrap;
+ 
+    left: 500px;
+    /*border:1px solid blue;*/
+    display: flex;
+}
+
+.cajainterna{
+   /* flex:4; */
+color: aliceblue;
+    
+   
+}
+
+.cajainterna a{
+    text-decoration: none;
+}
+
+h1{
+    font-family: Empiric Roman;
+    margin: 0;
+    padding: 0;
+    color: white;
+    white-space: nowrap;
+    font-size: 5vw;
+   
+}
+.cajainterna.apellido{
+    
+    margin-top: -5vw;
+     text-align: center;
+    width: 94vw;
+    font-family: Empiric Roman;
+}
+
+
+
+.cajainterna.textoerratico{
+    
+    margin-top: 0vw;
+    text-align: center;
+}
+
+
+.cajainterna.textoerratico2{
+    
+    margin-top: 5vw;
+    text-align: center;
+
+}
+
+.cajainterna.textoerratico2 p{
+    
+   
+font-family: sans-serif;
+}
+
+.cajainterna.textoerratico3{
+    
+    margin-top: 5vw;
+    text-align: center;
+    width: 66vw;
+    font-family: Empiric Roman;
+}
+
+.cajainterna.textoerratico4{
+    
+    margin-top: 0vw;
+    text-align: center;
+    width: 66vw;
+    font-family: Empiric Roman;
+}
+
+.cajainterna.textoerratico5{
+    
+    margin-top: 0vw;
+    text-align: center;
+    width: 66vw;
+    font-family: Empiric Roman;
+}
+
+
+
+.cajainterna.textoerratico6{
+    
+    margin-top: 9vw;
+    text-align: center;
+    width: 296vw;
+    font-family: Empiric Roman;
+    
+}
+
+
+
+.cajainterna.textoerratico7{
+    
+    margin-top: 3vw;
+    text-align: center;
+   width: 329vw;
+    font-family: Empiric Roman;
+  
+    
+}
+
+
+.cajainterna.textoerratico7 h1{
+    
+ 
+
+   
+
+    font-size: 62px;
+  
+    
+}
+
+
+
+.cajainterna.textoerratico8{
+    
+    margin-top: 3vw;
+    text-align: center;
+   width: 59vw;
+    font-family: Empiric Roman;
+  
+    
+}
+
+
+.cajainterna.textoerratico9{
+    
+    margin-top: 15vh;
+    text-align: center;
+   width: 39vw;
+    font-family: Empiric Roman;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+}
+
+
+.cajainterna.textoerratico9 a{
+    font-family: Empiric Roman;
+    font-size: 26px;
+    color:#F7F1EB;
+    text-decoration: none;
+    cursor: pointer;
+   
+
+}
+

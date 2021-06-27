@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+      <img id="sky" src="img/sky_sphere.jpg" crossorigin="anonymous" />
+      <a-asset-item id="coliseo" src="models/coliseo2.obj"></a-asset-item>
+      <a-asset-item id="chuqui-obj" src="models/chuqui.obj"></a-asset-item>
+      <img id="chuqui-texture" src="models/chuqui.png">
+      </a-assets>
+      <a-entity obj-model="obj: #coliseo;" position="0 0 0" scale="0.1 0.1 0.1"></a-entity>
+      <a-entity obj-model="obj: #chuqui-obj;" material="src: #chuqui-texture"></a-entity>
+      <a-entity position="0 -2 0"
+        geometry="primitive: plane; width: 10000; height: 10000;" rotation="-90 0 0"
+        material="src: #grid; repeat: 10000 10000; transparent: true; metalness:0.6; roughness: 0.4; sphericalEnvMap: #sky;"></a-entity>
+      <a-entity light="color: #ccccff; intensity: 1; type: ambient;" visible=""></a-entity>
+      <a-entity light="color: #ffaaff; intensity: 0.3" position="5 5 5"></a-entity>
+      <a-sky src="#sky" rotation="0 -90 0"></a-sky>
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>  
+    </a-scene>
+  </body>
+</html>

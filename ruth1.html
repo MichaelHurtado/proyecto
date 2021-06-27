@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Mars</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			@font-face{
+    font-family:chida; src: url('../proyecto/materiales/TIPOS/empiric-roman.OTF') format('truetype');
+}
+
+			body {
+				color: #ffffff;
+				font-family:chida;
+				font-size:13px;
+				text-align:center;
+				font-weight: bold;
+
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+			#info {
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 15px;
+			}
+
+			a {
+
+				color: #000000;
+			}
+
+			#oldie a { color:#da0 }
+			#ruth_pieza_sonora {
+    position: absolute;
+    z-index: 200;
+    opacity: .4;
+    top:80%;
+    left:40%;
+   
+}
+			audio{
+				height: 30px;
+				width:200px ;
+
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container"></div>
+		<div id="info"><a href="../proyecto/ruth2.html" target="_blank" rel="noopener">MICROCOSMOS TERRESTRES PARA MARTE</a></div>
+		<div id="ruth_pieza_sonora">
+        		<audio class="audio" controls=""  loop="">
+               		<source src="../proyecto/materiales/ruth2.mp3">
+               	</audio>
+        </div>
+		<script src="libraries/three.js"></script>
+		<script src="libraries/Detector.js"></script>
+		<script src="libraries/stats.min.js"></script>
+		<script id="vertexShader" type="x-shader/x-vertex">
+
+			void main()	{
+
+				gl_Position = vec4( position, 1.0 );
+
+			}
+
+		</script>
+
+		<script id="fragmentShader" type="x-shader/x-fragment">
+
+			//Basado en el trabajo de Iñigo Quilez (www.iquilezles.org)
+			//Mars by Michael Hurtado
+
+			#ifdef GL_ES
+precision mediump float;
+#endif
+
+#extension GL_OES_standard_derivatives : enable
+
+uniform float time;
+uniform vec2 mouse;
+uniform vec2 resolution;
+
+const mat2 mat = mat2(1.8, 1.1, -1.1, 1.8);
+
+float rand(vec2 v)
+{
+	float x = fract(sin(dot(v, vec2(1872.8497, -2574.9248))) * 72123.19);
+	return x;
+}
+
+float noise(in vec2 p) 
+{
+    vec2 i = floor(p);
+    vec2 f = fract(p);	
+	vec2 u = f*f*(3.0-2.0*f);
+    return -1.0+2.0*mix(mix(rand(i + vec2(0.0,0.0)), rand(i + vec2(1.0,0.0)), u.x),
+						mix(rand(i + vec2(0.0,1.0)), rand(i + vec2(1.0,1.0)), u.x), u.y);
+}
+
+float map(vec2 xz)
+{
+	xz += noise(xz);
+	vec2 a = 1.0 - abs(sin(xz));
+	vec2 b = abs(cos(xz));
+	return pow(dot(a, b) * length(cos(xz)), 0.5) + pow(sin(xz.x), 1.0) + pow(cos(xz.y), 1.0);
+}
+
+float terrain(vec3 p)
+{
+	vec2 xz = p.xz / 5.0;
+	xz.x *= 0.7;
+	float amp = 1.5;
+	float h = 0.0;
+	float freq = 0.1;
+	for (int i = 0; i < 5; i++)
+	{
+		float h1 = map(xz * freq);
+		float h2 = map(xz * freq);
+		h += (h1 + h2) * amp;
+		freq *= 2.1;
+		amp *= 0.21;
+		xz *= mat;
+	}
+	return p.y - h;
+}
+
+
+float castRay(inout vec3 p, vec3 dir)
+{	
+	float t = 0.1;    
+	float d = 0.1;
+	for (int i = 0; i < 200; i++)
+	{
+		float h = terrain(p + dir*t);
+		if (h < 0.0)
+			break;
+		
+		d *= 1.05;
+        t += d;
+        if (i == 199)
+            return 20000.0;
+	}
+    
+	float t2 = t;
+	float h2 = terrain(p + dir*t2);
+	if (h2 > 0.0)
+		return t2;
+	float t1 = t - d*10.0;
+	float h1 = terrain(p + dir*t1);
+	for (int i = 0; i < 8; i++)
+	{
+		t = mix(t1, t2, h1/(h1-h2));
+		float h = terrain(p + dir*t);
+		if (h < 0.0)
+		{
+            t2 = t; 
+            h2 = h;
+        }
+		else
+		{
+            t1 = t; 
+            h1 = h;
+        }
+	}	
+	p = p + dir*t;
+	return t;
+}
+
+vec3 getNormal(vec3 p, float d)
+{
+    vec3 n;
+    n.y = terrain(p);    
+    n.x = terrain(p + vec3(d, 0.0, 0.0)) - n.y;
+    n.z = terrain(p + vec3(0.0, 0.0, d)) - n.y;
+    n.y = d;
+    return normalize(n);
+}
+
+
+void main(void)
+{
+    vec2 angle = vec2(mouse.x, radians(5.0));
+    vec3 center = vec3(-time * 10.0, 0.0, -time * 10.0);
+    float zoom = 1.0;
+    
+    vec3 p = vec3(cos(angle.x)*cos(angle.y), sin(angle.y), sin(angle.x)*cos(angle.y));
+	vec2 uv = ( gl_FragCoord.xy/* + vec2(int(iTime*30.0))*/) / resolution.yy - vec2(resolution.x / resolution.y / 2.0, 0.5);
+    
+    vec3 tx = vec3(-sin(angle.x), 0.0, cos(angle.x));
+    vec3 ty = vec3(-cos(angle.x)*sin(angle.y), cos(angle.y), -sin(angle.x)*sin(angle.y));
+    
+    vec3 p2 = p * 1.5;
+    p = p * zoom + center;
+    p.y -= terrain(vec3(p.x, 0.0, p.z)) - 3.0;
+    
+    vec3 dir = tx * uv.x + ty * uv.y - p2;
+    
+    vec3 color = vec3(0.0);
+    vec3 light = normalize(vec3(0.6, 0.8, 0.3));
+    
+    
+	float dist = castRay(p, dir);
+	
+    if (dist > 10000.0)
+        color = vec3(0.88, 0.8, 0.7) * 1.0 - dot(vec3(0.0, 1.0, 0.0), dir);
+    else    
+   		color = vec3(0.592, 0.447, 0.341) * pow(max(dot(getNormal(p, dist*0.001), light), 0.0), 2.0) + noise(p.xz * 4.0) / 25.0;
+	
+    
+    gl_FragColor = vec4(color, 1.0);
+}
+		</script>
+
+		<script>
+			var _0x83a5=["\x77\x65\x62\x67\x6C","\x61\x64\x64\x47\x65\x74\x57\x65\x62\x47\x4C\x4D\x65\x73\x73\x61\x67\x65","\x63\x6F\x6E\x74\x61\x69\x6E\x65\x72","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x7A","\x70\x6F\x73\x69\x74\x69\x6F\x6E","\x74\x65\x78\x74\x43\x6F\x6E\x74\x65\x6E\x74","\x76\x65\x72\x74\x65\x78\x53\x68\x61\x64\x65\x72","\x66\x72\x61\x67\x6D\x65\x6E\x74\x53\x68\x61\x64\x65\x72","\x61\x64\x64","\x64\x65\x76\x69\x63\x65\x50\x69\x78\x65\x6C\x52\x61\x74\x69\x6F","\x73\x65\x74\x50\x69\x78\x65\x6C\x52\x61\x74\x69\x6F","\x64\x6F\x6D\x45\x6C\x65\x6D\x65\x6E\x74","\x61\x70\x70\x65\x6E\x64\x43\x68\x69\x6C\x64","\x64\x6F\x6D","\x6D\x6F\x75\x73\x65\x6D\x6F\x76\x65","\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72","\x72\x65\x73\x69\x7A\x65","\x6B\x65\x79\x64\x6F\x77\x6E","\x6C\x61\x6E\x64\x73\x63\x61\x70\x65\x2E\x6D\x70\x33","\x6C\x6F\x6F\x70","\x70\x6C\x61\x79","\x6B\x65\x79\x43\x6F\x64\x65","\x70\x61\x75\x73\x65","\x69\x6E\x6E\x65\x72\x57\x69\x64\x74\x68","\x69\x6E\x6E\x65\x72\x48\x65\x69\x67\x68\x74","\x73\x65\x74\x53\x69\x7A\x65","\x78","\x76\x61\x6C\x75\x65","\x72\x65\x73\x6F\x6C\x75\x74\x69\x6F\x6E","\x77\x69\x64\x74\x68","\x79","\x68\x65\x69\x67\x68\x74","\x67\x65\x74\x42\x6F\x75\x6E\x64\x69\x6E\x67\x43\x6C\x69\x65\x6E\x74\x52\x65\x63\x74","\x6D\x6F\x75\x73\x65","\x63\x6C\x69\x65\x6E\x74\x58","\x6C\x65\x66\x74","\x63\x6C\x69\x65\x6E\x74\x57\x69\x64\x74\x68","\x63\x6C\x69\x65\x6E\x74\x59","\x74\x6F\x70","\x63\x6C\x69\x65\x6E\x74\x48\x65\x69\x67\x68\x74","\x75\x70\x64\x61\x74\x65","\x74\x69\x6D\x65","\x72\x65\x6E\x64\x65\x72"];if(!Detector[_0x83a5[0]]){Detector[_0x83a5[1]]()};var container,stats;var camera,scene,renderer;var uniforms;var mesh;var audio;init();animate();function init(){container= document[_0x83a5[3]](_0x83a5[2]);camera=  new THREE.Camera();camera[_0x83a5[5]][_0x83a5[4]]= 1;scene=  new THREE.Scene();var _0x1a50xa= new THREE.PlaneBufferGeometry(2,2);uniforms= {time:{value:1.0},resolution:{value: new THREE.Vector2()},mouse:{value: new THREE.Vector2()}};var _0x1a50xb= new THREE.ShaderMaterial({uniforms:uniforms,vertexShader:document[_0x83a5[3]](_0x83a5[7])[_0x83a5[6]],fragmentShader:document[_0x83a5[3]](_0x83a5[8])[_0x83a5[6]]});mesh=  new THREE.Mesh(_0x1a50xa,_0x1a50xb);scene[_0x83a5[9]](mesh);renderer=  new THREE.WebGLRenderer({preserveDrawingBuffer:true});renderer[_0x83a5[11]](window[_0x83a5[10]]);container[_0x83a5[13]](renderer[_0x83a5[12]]);stats=  new Stats();container[_0x83a5[13]](stats[_0x83a5[14]]);onWindowResize();renderer[_0x83a5[12]][_0x83a5[16]](_0x83a5[15],recordMousePosition);window[_0x83a5[16]](_0x83a5[17],onWindowResize,false);window[_0x83a5[16]](_0x83a5[18],Keyboard,false);audio=  new Audio(_0x83a5[19]);audio[_0x83a5[20]]= true;audio[_0x83a5[21]]()}function Keyboard(){if(event[_0x83a5[22]]== 37){audio[_0x83a5[23]]()}else {if(event[_0x83a5[22]]== 39){audio[_0x83a5[21]]()}}}function onWindowResize(_0x1a50xe){renderer[_0x83a5[26]](window[_0x83a5[24]],window[_0x83a5[25]]);uniforms[_0x83a5[29]][_0x83a5[28]][_0x83a5[27]]= renderer[_0x83a5[12]][_0x83a5[30]];uniforms[_0x83a5[29]][_0x83a5[28]][_0x83a5[31]]= renderer[_0x83a5[12]][_0x83a5[32]]}function recordMousePosition(_0x1a50x10){var _0x1a50x11=renderer[_0x83a5[12]];var _0x1a50x12=_0x1a50x11[_0x83a5[33]]();uniforms[_0x83a5[34]][_0x83a5[28]][_0x83a5[27]]= (_0x1a50x10[_0x83a5[35]]- _0x1a50x12[_0x83a5[36]])/ _0x1a50x11[_0x83a5[37]]* 2- 1;uniforms[_0x83a5[34]][_0x83a5[28]][_0x83a5[31]]= (_0x1a50x10[_0x83a5[38]]- _0x1a50x12[_0x83a5[39]])/ _0x1a50x11[_0x83a5[40]]*  -2+ 1}function animate(){requestAnimationFrame(animate);render();stats[_0x83a5[41]]()}function render(){uniforms[_0x83a5[42]][_0x83a5[28]]+= 0.05;renderer[_0x83a5[43]](scene,camera)}
+		</script>
+		window.open( renderer.domElement.toDataURL( 'image/png' ), 'screenshot' );
+	</body>
+</html>

@@ -1,0 +1,376 @@
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" type="text/css" href="css/base.css" />
+		<!-- Código "inspirado" en nuestros amigos de #BrokenEnglish -->
+		<style>
+
+h1 {
+font-family: 'Helvetica', cursive;
+font-size: 9vmax;
+position: absolute;
+left:23%;
+top:0%;
+max-width: 60%;
+align-content: center;
+
+
+}
+::-moz-selection { /* Code for Firefox */
+  color: #fc157b;
+  background-color: #472835;
+}
+
+::selection {
+  color: #fc157b;
+  background-color: #472835;
+}
+
+p {
+word-wrap: break-word;
+	font-family: 'Roboto Mono', monospace;
+	font-size: 1.6vmax;
+	color:#feffef;
+	word-break: keep-all;
+	word-spacing: normal;
+}
+#t {
+	-webkit-animation-direction: alternate;
+
+	animation: pulse .07s 0.07s infinite steps(13, end);
+}
+#m {
+
+	-webkit-animation-direction: alternate;
+
+	animation: pulse .5s 0.5s infinite steps(13, end);
+
+
+}
+
+
+@-webkit-keyframes pulse {
+	0% {
+	color: #ffffff;
+
+	}
+	8% {
+			color: #ffffff;
+
+	}
+	16% {
+	color: #cce2ff;
+	}
+	24% {
+	color: #ffccf4;
+	}
+	32% {
+	color: #ffffff;
+	transform:perspective(1.2);
+	}
+	40% {
+	color: #fffecc;
+	opacity:.8;
+
+	}
+	48% {
+	color: #ffffff;
+			}
+	56% {
+	color: #e6ffe8;
+	opacity:.4;
+	}
+	64% {
+	color: #e6fff8;
+	}
+	72% {
+	color: #000000;
+	}
+	80% {
+	color: #cce2ff;
+
+	opacity:.4;
+	}
+	88% {
+	color: #fffecc;
+}
+	95% {
+	color: #ffffff;
+	}
+100% {
+	color: #ffffff;
+}
+}
+@-moz-keyframes pulse {
+	0% {
+	color: #ffffff;
+
+	}
+	8% {
+			color: #ffffff;
+
+	}
+	16% {
+	color: #cce2ff;
+	}
+	24% {
+	color: #ffccf4;
+	}
+	32% {
+	color: #ffffff;
+	transform:perspective(1.2);
+	}
+	40% {
+	color: #fffecc;
+	opacity:.8;
+
+	}
+	48% {
+	color: #ffffff;
+			}
+	56% {
+	color: #e6ffe8;
+	opacity:.4;
+	}
+	64% {
+	color: #e6fff8;
+	}
+	72% {
+	color: #000000;
+	}
+	80% {
+	color: #cce2ff;
+
+	opacity:.4;
+	}
+	88% {
+	color: #fffecc;
+}
+	95% {
+	color: #ffffff;
+	}
+100% {
+	color: #ffffff;
+}
+}
+@-o-keyframes pulse {
+	0% {
+	color: #ffffff;
+
+	}
+	8% {
+			color: #ffffff;
+transform:matrix(2);
+	}
+	16% {
+	color: #cce2ff;
+	}
+	24% {
+	color: #ffccf4;
+	}
+	32% {
+	color: #ffffff;
+	transform:perspective(1.2);
+	}
+	40% {
+	color: #fffecc;
+	opacity:.8;
+
+	}
+	48% {
+	color: #ffffff;
+			}
+	56% {
+	color: #e6ffe8;
+	opacity:.4;
+	}
+	64% {
+	color: #e6fff8;
+	}
+	72% {
+	color: #000000;
+	}
+	80% {
+	color: #cce2ff;
+
+	opacity:.4;
+	}
+	88% {
+	color: #fffecc;
+}
+	95% {
+	color: #ffffff;
+	}
+100% {
+	color: #ffffff;
+}
+}
+@keyframes pulse {
+	0% {text-shadow: #cce2ff;
+	color: #ffffff;
+
+	}
+	8% {text-shadow: #ffffff;
+				color: #ffffff;
+	transform:matrix(2);
+	left:5%;
+		}
+	16% { text-shadow: #ffffff;
+	color: #cce2ff;
+	}
+	24% {text-shadow: #ffccf4;
+	color: #ffccf4;
+	}
+	32% {	text-shadow: #ffffff;
+	color: #ffffff;
+	transform:perspective(1.2);
+	}
+	40% {	text-shadow: #fffecc;
+	color: #fffecc;
+	opacity:.8;
+
+	}
+	48% {text-shadow: #e6ffe8;
+	color: #ffffff;
+			}
+	56% {text-shadow: #ffffff;
+	color: #e6ffe8;
+	opacity:.4;
+	}
+	64% {text-shadow: #000000;
+	color: #e6fff8;
+	}
+	72% {	text-shadow: #e6fff8;
+	color: #000000;
+	}
+	80% {	text-shadow: #cce2ff;
+	color: #cce2ff;
+
+	opacity:.4;
+	}
+	88% {text-shadow: #ffffff;
+	color: #fffecc;
+}
+	95% {text-shadow: #ffffff;
+	color: #ffffff;
+	}
+100% {text-shadow: #fffecc;
+	color: #ffffff;
+}
+}
+
+
+@keyframes pulse2 {
+	0% {
+text-shadow: #ffffff;
+
+	}
+	8% {
+			text-shadow: #ffffff;
+	transform:matrix(2);
+	left:5%;
+		}
+	16% {
+	text-shadow: #cce2ff;
+	}
+	24% {
+	text-shadow: #ffccf4;
+	}
+	32% {
+	text-shadow: #fffecc;
+	transform:perspective(1.2);
+	}
+	40% {
+	text-shadow: #ffffff;
+	opacity:.8;
+
+	}
+	48% {
+	text-shadow: #ffffff;
+			}
+	56% {
+text-shadow: #e6ffe8;
+	opacity:.4;
+	}
+	64% {
+	text-shadow: #e6fff8;
+	}
+	72% {
+	text-shadow: #000000;
+	}
+	80% {
+	text-shadow: #cce2ff;
+
+	opacity:.4;
+	}
+	88% {
+text-shadow: #fffecc;
+}
+	95% {
+text-shadow: #ffffff;
+	}
+100% {
+text-shadow: #ffffff;
+}
+}
+#pagina1 {
+top:30%;
+left:0%;
+right:0%;
+max-width:100%;
+bottom: 160%;
+height: 1300px;
+  background-image:  url("estrellas.gif");
+	position: absolute;
+	box-sizing: content-box;
+	background-attachment: fixed;
+ background-position: center;
+ background-repeat: no-repeat;
+ background-size: cover;	box-sizing: content-box;
+
+}
+
+#poema1 {
+position: absolute;
+background-color: #000000;
+top:12%;
+left:12%;
+max-width: 66%;
+padding-left: 1vmax;
+padding-top: 1vmax;
+padding-bottom: 1vmax;
+box-shadow: 10px 10px #f147af;	box-sizing: content-box;
+
+
+}
+</style>
+
+
+	</head>
+<body>
+
+<div id="m"><h1>ASTROPOESÍA</h1></div><div id="t"><h1>ASTROPOESÍA</h1></div>
+
+
+				<div class="block" data-fx="1">
+
+				</div>
+
+
+				<div id="pagina1" class="content" >
+
+				<p id="poema1">La <a class="content__text-link" data-img="img/imagen1.png" data-fx="1">imagen</a> superior izquierda es la Nebulosa de Orión (M42), es una nebulosa de emisión y con alto contenido de hidrógeno ionizado (regiones de color rojizo), por lo que es una región propicia para el "nacimiento"  de estrellas. Coloqué la imagen ya que en una de las <a class="content__text-link" data-img="img/imagen2.png" data-fx="7">obras</a> de Eielson se observa una sucesión creciente de números que inicia en 1, la cual puedo entender como el aumento de la población estelar desde la formación de una primera estrella, es decir el origen  de todas esas estrellas sería una nebulosa. <br> 
+
+				Esta <a class="content__text-link" data-img="img/imagen3.png" data-fx="3">imagen</a> izquierda, es también una imagen de M42, sin embargo no presenta colores, ya que es de esta manera es que se obtienen muchas de las imágenes de objetos astronómicos y luego, se otorgan los colores durante el procesamiento. <br>
+
+En la parte derecha,se observa una única estrella <a class="content__text-link" data-img="img/imagen4.JPG" data-fx="3">Alfa Centauri</a>, con un tiempo de exposición de 1/6 s, y la <a class="content__text-link" data-img="img/imagen5.png" data-fx="1">imagen</a> inferior derecha corresponde a una región del cielo con un tiempo de exposición de 5s, fotografía tomada con un telescopio con seguimiento y un cámara CCD, por lo que la cantidad de estrellas es mucho mayor. De no usar un seguimiento para la segunda imagen, observaríamos a las estrellas como una pequeña línea y no de manera <a class="content__text-link" data-img="img/imagen6.jpg" data-fx="6">puntual</a>. Estas imágenes quieren evidenciar de manera indirecta el tiempo de observación necesario para obtener una imagen como la que se muestra en "Esta <a class="content__text-link" data-img="img/imagen7.JPG" data-fx="17">vertical</a> celeste proviene de Alfa de Centauro"</p>
+
+				</div>
+		<script src="js/charming.min.js"></script>
+		<script src="js/imagesloaded.pkgd.min.js"></script>
+		<script src="js/TweenMax.min.js"></script>
+		<script src="js/demo.js"></script>
+	</body>
+</html>
+
+
